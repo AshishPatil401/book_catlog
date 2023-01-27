@@ -1,14 +1,19 @@
 # app\__init__.py
 
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
-
+from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
 
 bootstrap = Bootstrap()
+
+login_manager = LoginManager()
+
+bcrypt = Bcrypt()
 
 
 def create_app(config_type):
@@ -24,10 +29,15 @@ def create_app(config_type):
     app.config.from_pyfile(configuration)                                       # here app is instace of Flask class
 
     db.init_app(app)                                                            # Initialize the database instance   (app is a instace of Flask class )
-    bootstrap.init_app(app)                                                     # Initialize the bootstrap instance      
+    bootstrap.init_app(app)
+    login_manager.init_app(app)
+    bcrypt.init_app(app)                                                         # Initialize the bootstrap instance      
 
     from app.catlog import main                                                 # import blueprint (app : root folder)
     app.register_blueprint(main)                                                # register blueprint (app is instace of Flask class)   
 
+    from app.auth import authentication
+    app.register_blueprint(authentication)
+    
     return app
 
