@@ -1,5 +1,5 @@
 from app.catlog import main
-from app import db, render_template
+from flask import render_template
 from app.catlog.models import Books, Publication
 
 
