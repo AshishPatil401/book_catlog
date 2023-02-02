@@ -12,6 +12,8 @@ db = SQLAlchemy()
 bootstrap = Bootstrap()
 
 login_manager = LoginManager()
+login_manager.login_view='authentication.do_login_again'
+login_manager.session_protection='strong'
 
 bcrypt = Bcrypt()
 
